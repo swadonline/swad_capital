@@ -2,7 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import CorporateHero from '@/components/CorporateHero';
 import AnimatedSection from '@/components/AnimatedSection';
+import AnimatedServiceCard from '@/components/AnimatedServiceCard';
+import AnimatedStat from '@/components/AnimatedStat';
+import AnimatedAdvantage from '@/components/AnimatedAdvantage';
+import AnimatedImage from '@/components/AnimatedImage';
+import AnimatedFeatureCard from '@/components/AnimatedFeatureCard';
 import Newsletter from '@/components/Newsletter';
+import AnimatedBackground from '@/components/AnimatedBackground';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -128,50 +134,36 @@ export default function Home() {
             </AnimatedSection>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <AnimatedSection animation="fadeInUp" delay={0.3}>
-                <div className="group relative p-10 rounded-2xl bg-gradient-to-br from-corporate-gray-50 to-white border border-corporate-gray-200 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500" />
-                  <div className="relative">
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-display font-bold text-corporate-gray-900 mb-4">Global Presence</h3>
-                    <p className="text-corporate-gray-600 leading-relaxed">Offices across Nigeria, UK, and USA serving clients worldwide with localized expertise.</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fadeInUp" delay={0.4}>
-                <div className="group relative p-10 rounded-2xl bg-gradient-to-br from-corporate-gray-50 to-white border border-corporate-gray-200 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500" />
-                  <div className="relative">
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-display font-bold text-corporate-gray-900 mb-4">Innovation Focus</h3>
-                    <p className="text-corporate-gray-600 leading-relaxed">Cutting-edge technology solutions driving digital transformation and competitive advantage.</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-
-              <AnimatedSection animation="fadeInUp" delay={0.5}>
-                <div className="group relative p-10 rounded-2xl bg-gradient-to-br from-corporate-gray-50 to-white border border-corporate-gray-200 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500" />
-                  <div className="relative">
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-display font-bold text-corporate-gray-900 mb-4">Trusted Partnership</h3>
-                    <p className="text-corporate-gray-600 leading-relaxed">Long-term relationships built on reliability, security, and operational excellence.</p>
-                  </div>
-                </div>
-              </AnimatedSection>
+              <AnimatedFeatureCard
+                title="Global Presence"
+                description="Offices across Nigeria, UK, and USA serving clients worldwide with localized expertise."
+                icon={
+                  <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                }
+                delay={0.3}
+              />
+              <AnimatedFeatureCard
+                title="Innovation Focus"
+                description="Cutting-edge technology solutions driving digital transformation and competitive advantage."
+                icon={
+                  <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                }
+                delay={0.4}
+              />
+              <AnimatedFeatureCard
+                title="Trusted Partnership"
+                description="Long-term relationships built on reliability, security, and operational excellence."
+                icon={
+                  <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                }
+                delay={0.5}
+              />
             </div>
           </div>
         </div>
@@ -192,58 +184,40 @@ export default function Home() {
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, index) => (
-              <AnimatedSection key={index} animation="fadeInUp" delay={index * 0.1}>
-                <Link
-                  href={service.link}
-                  className="group block h-full p-10 bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-corporate-gray-200 hover:border-primary/30 relative overflow-hidden"
-                >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/15 transition-all duration-500" />
-                  <div className="relative">
-                    <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
-                      {index === 0 && (
-                        <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                      )}
-                      {index === 1 && (
-                        <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                        </svg>
-                      )}
-                      {index === 2 && (
-                        <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      )}
-                      {index === 3 && (
-                        <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                        </svg>
-                      )}
-                    </div>
-                    <h3 className="text-xl font-display font-bold text-corporate-gray-900 mb-4 group-hover:text-primary transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-corporate-gray-600 leading-relaxed mb-6">
-                      {service.description}
-                    </p>
-                    <div className="text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300 inline-flex items-center">
-                      Learn more
-                      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </Link>
-              </AnimatedSection>
-            ))}
+            {services.map((service, index) => {
+              const icons = [
+                <svg key={0} className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>,
+                <svg key={1} className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>,
+                <svg key={2} className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>,
+                <svg key={3} className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>,
+              ];
+
+              return (
+                <AnimatedServiceCard
+                  key={index}
+                  title={service.title}
+                  description={service.description}
+                  link={service.link}
+                  icon={icons[index]}
+                  delay={index * 0.1}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
       <section className="section-padding bg-gradient-to-b from-corporate-gray-900 via-corporate-gray-800 to-corporate-gray-900 text-white relative overflow-hidden">
+        <AnimatedBackground />
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -264,15 +238,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <AnimatedSection key={index} animation="scaleIn" delay={index * 0.1}>
-                <div className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
-                  <div className="text-5xl md:text-6xl font-display font-bold text-primary-light mb-4">
-                    {stat.value}
-                    {stat.suffix && <span className="text-4xl">{stat.suffix}</span>}
-                  </div>
-                  <div className="text-lg text-corporate-gray-300 font-medium">{stat.label}</div>
-                </div>
-              </AnimatedSection>
+              <AnimatedStat
+                key={index}
+                value={stat.value}
+                label={stat.label}
+                suffix={stat.suffix}
+                delay={index * 0.1}
+              />
             ))}
           </div>
         </div>
@@ -291,38 +263,11 @@ export default function Home() {
                   We combine deep technical expertise with a deep understanding of emerging markets to deliver solutions that work in the real world.
                 </p>
 
-                <div className="space-y-8">
-                  {advantages.map((item, index) => (
-                    <AnimatedSection key={index} animation="fadeInLeft" delay={index * 0.1}>
-                      <div className="flex items-start space-x-6 group">
-                        <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors duration-300">
-                          <div className="text-primary">
-                            {item.icon}
-                          </div>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-display font-bold text-corporate-gray-900 mb-3">{item.title}</h3>
-                          <p className="text-corporate-gray-600 leading-relaxed">{item.desc}</p>
-                        </div>
-                      </div>
-                    </AnimatedSection>
-                  ))}
-                </div>
+                <AnimatedAdvantage advantages={advantages} />
               </div>
             </AnimatedSection>
 
-            <AnimatedSection animation="fadeInRight">
-              <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
-                <Image
-                  src="/about-1.jpg"
-                  alt="Technology infrastructure and innovation"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-corporate-gray-900/20 to-transparent" />
-              </div>
-            </AnimatedSection>
+            <AnimatedImage />
           </div>
         </div>
       </section>

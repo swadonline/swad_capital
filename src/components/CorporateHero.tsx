@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import AnimatedBackground from './AnimatedBackground';
 
 interface CorporateHeroProps {
   title: string;
@@ -59,6 +60,8 @@ export default function CorporateHero({
               ease: 'easeInOut',
             }}
           />
+          {/* Animated background elements */}
+          <AnimatedBackground />
         </>
       )}
 
@@ -81,7 +84,21 @@ export default function CorporateHero({
           {/* Strong gradient overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-corporate-gray-900/90 via-corporate-gray-900/80 to-corporate-gray-900/90" />
           {/* Additional overlay for depth and brand color integration */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/15 via-transparent to-primary/15" />
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-primary/15 via-transparent to-primary/15"
+            animate={{
+              background: [
+                'linear-gradient(90deg, rgba(108, 0, 0, 0.15) 0%, transparent 50%, rgba(108, 0, 0, 0.15) 100%)',
+                'linear-gradient(90deg, rgba(108, 0, 0, 0.1) 0%, transparent 50%, rgba(108, 0, 0, 0.1) 100%)',
+                'linear-gradient(90deg, rgba(108, 0, 0, 0.15) 0%, transparent 50%, rgba(108, 0, 0, 0.15) 100%)',
+              ],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
           {/* Subtle vignette effect for depth */}
           <div 
             className="absolute inset-0" 
@@ -89,6 +106,8 @@ export default function CorporateHero({
               background: 'radial-gradient(ellipse at center, transparent 0%, rgba(17, 24, 39, 0.3) 100%)'
             }}
           />
+          {/* Animated background elements */}
+          <AnimatedBackground />
         </>
       )}
 
