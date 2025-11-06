@@ -67,27 +67,27 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="animate-fade-in-up">
-      <h2 className="text-3xl font-bold text-primary mb-6 animate-fade-in-down">
+    <div>
+      <h2 className="text-3xl font-display font-bold text-corporate-gray-900 mb-8">
         Send us a Message
       </h2>
       
       {submitStatus === 'success' && (
-        <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg animate-bounce-in">
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
             Thank you for your message! We&apos;ll get back to you soon.
         </div>
       )}
 
       {submitStatus === 'error' && (
-        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg animate-bounce-in">
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg">
             Sorry, there was an error sending your message. Please try again or contact us directly.
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6 stagger-container">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="animate-fade-in-left">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+          <div>
+            <label htmlFor="name" className="block text-sm font-semibold text-corporate-gray-900 mb-2">
               Full Name *
             </label>
             <input
@@ -97,12 +97,12 @@ export default function ContactForm() {
               value={formData.name}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent hover-scale transition-all duration-300"
+              className="w-full px-4 py-3 border border-corporate-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white"
             />
           </div>
           
-          <div className="animate-fade-in-right">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+          <div>
+            <label htmlFor="email" className="block text-sm font-semibold text-corporate-gray-900 mb-2">
               Email Address *
             </label>
             <input
@@ -112,14 +112,14 @@ export default function ContactForm() {
               value={formData.email}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent hover-scale transition-all duration-300"
+              className="w-full px-4 py-3 border border-corporate-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="animate-fade-in-left" style={{ animationDelay: '0.1s' }}>
-            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+          <div>
+            <label htmlFor="company" className="block text-sm font-semibold text-corporate-gray-900 mb-2">
               Company
             </label>
             <input
@@ -128,12 +128,12 @@ export default function ContactForm() {
               name="company"
               value={formData.company}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent hover-scale transition-all duration-300"
+              className="w-full px-4 py-3 border border-corporate-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white"
             />
           </div>
           
-          <div className="animate-fade-in-right" style={{ animationDelay: '0.1s' }}>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+          <div>
+            <label htmlFor="phone" className="block text-sm font-semibold text-corporate-gray-900 mb-2">
               Phone Number
             </label>
             <input
@@ -142,13 +142,13 @@ export default function ContactForm() {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent hover-scale transition-all duration-300"
+              className="w-full px-4 py-3 border border-corporate-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white"
             />
           </div>
         </div>
 
-        <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+        <div>
+          <label htmlFor="subject" className="block text-sm font-semibold text-corporate-gray-900 mb-2">
             Subject *
           </label>
           <select
@@ -157,7 +157,7 @@ export default function ContactForm() {
             value={formData.subject}
             onChange={handleInputChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent hover-scale transition-all duration-300"
+            className="w-full px-4 py-3 border border-corporate-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white"
           >
             <option value="">Select a subject</option>
             <option value="enterprise-software">Enterprise Software</option>
@@ -169,8 +169,8 @@ export default function ContactForm() {
           </select>
         </div>
 
-        <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+        <div>
+          <label htmlFor="message" className="block text-sm font-semibold text-corporate-gray-900 mb-2">
             Message *
           </label>
           <textarea
@@ -180,7 +180,7 @@ export default function ContactForm() {
             onChange={handleInputChange}
             required
             rows={6}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-vertical hover-scale transition-all duration-300"
+            className="w-full px-4 py-3 border border-corporate-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-vertical transition-all duration-300 bg-white"
             placeholder="Tell us about your project or requirements..."
           />
         </div>
@@ -188,12 +188,14 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-primary text-white text-lg py-4 px-6 rounded-lg font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
-          style={{ animationDelay: '0.4s' }}
+          className="w-full bg-primary text-white text-lg py-4 px-6 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-light hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center">
-              <span className="animate-spin-slow mr-2">⏳</span>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
               Sending...
             </span>
           ) : (

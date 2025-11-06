@@ -2,6 +2,10 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import CorporateHero from '@/components/CorporateHero';
+import { generateArticleSchema, baseUrl } from '@/lib/seo';
+import AnimatedSection from '@/components/AnimatedSection';
 
 // Article data - in a real app, this would come from a CMS or database
 const articles = {
@@ -325,13 +329,33 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     };
   }
 
+  const articleUrl = `${baseUrl}/news/${params.id}`;
+  const articleImage = article.image.startsWith('http') ? article.image : `${baseUrl}${article.image}`;
+
   return {
-    title: article.title,
+    title: `${article.title} | SWAD Digital Solutions`,
     description: article.excerpt,
+    keywords: article.tags,
+    authors: [{ name: article.author }],
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      images: [article.image],
+      images: [articleImage],
+      url: articleUrl,
+      type: 'article',
+      publishedTime: new Date().toISOString(),
+      authors: [article.author],
+      tags: article.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.title,
+      description: article.excerpt,
+      images: [articleImage],
+      creator: '@swadtech',
+    },
+    alternates: {
+      canonical: articleUrl,
     },
   };
 }
@@ -343,97 +367,115 @@ export default function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
+  // Generate article schema
+  const articleSchema = generateArticleSchema({
+    title: article.title,
+    description: article.excerpt,
+    image: article.image,
+    publishedTime: new Date().toISOString(),
+    author: article.author,
+    url: `/news/${params.id}`,
+  });
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Article Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="container-max py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
-              <Link href="/news" className="hover:text-primary transition-colors">
-                News & Insights
-              </Link>
-              <span>•</span>
-              <span>{article.category}</span>
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6 leading-tight">
-              {article.title}
-            </h1>
-            
-            <div className="flex items-center justify-between text-gray-600 mb-8">
-              <div className="flex items-center space-x-4">
-                <span>By {article.author}</span>
-                <span>•</span>
-                <span>{article.date}</span>
-              </div>
-              <div className="flex items-center">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {article.readTime}
-              </div>
-            </div>
-          </div>
-        </div>
+    <>
+      {/* Article Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+
+      {/* Breadcrumbs */}
+      <div className="container-max pt-8 px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs
+          items={[
+            { name: 'Home', url: '/' },
+            { name: 'News & Insights', url: '/news' },
+            { name: article.title, url: `/news/${params.id}` },
+          ]}
+        />
       </div>
+
+      {/* Article Header */}
+      <CorporateHero
+        title={article.title}
+        subtitle={article.category}
+        description={`${article.author} • ${article.date} • ${article.readTime}`}
+        backgroundImage="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop"
+      />
 
       {/* Article Image */}
-      <div className="container-max py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative h-96 md:h-[500px] rounded-xl overflow-hidden mb-8">
-            <Image
-              src={article.image}
-              alt={article.title}
-              fill
-              className="object-cover"
-              priority
-            />
+      <section className="section-padding bg-white">
+        <div className="container-max">
+          <div className="max-w-4xl mx-auto">
+            <AnimatedSection animation="fadeInUp" delay={0.2}>
+              <div className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl group">
+                <Image
+                  src={article.image}
+                  alt={article.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 896px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-corporate-gray-900/20 to-transparent" />
+              </div>
+            </AnimatedSection>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Article Content */}
-      <div className="container-max pb-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg p-8 md:p-12">
-            <div 
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: article.content }}
-            />
-            
-            {/* Tags */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-primary mb-4">Tags</h3>
-              <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-colors cursor-pointer"
-                  >
-                    {tag}
-                  </span>
-                ))}
+      <section className="section-padding bg-white">
+        <div className="container-max">
+          <div className="max-w-4xl mx-auto">
+            <AnimatedSection animation="fadeInUp" delay={0.3}>
+              <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 lg:p-16 border border-corporate-gray-200">
+                <div 
+                  className="prose prose-lg prose-headings:font-display prose-headings:font-bold prose-headings:text-corporate-gray-900 prose-p:text-corporate-gray-700 prose-p:leading-relaxed prose-strong:text-corporate-gray-900 prose-ul:text-corporate-gray-700 prose-li:marker:text-primary max-w-none"
+                  dangerouslySetInnerHTML={{ __html: article.content }}
+                />
+                
+                {/* Tags */}
+                <div className="mt-16 pt-12 border-t border-corporate-gray-200">
+                  <h3 className="text-xl font-display font-bold text-corporate-gray-900 mb-6">Tags</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {article.tags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-corporate-gray-50 text-corporate-gray-700 rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer border border-corporate-gray-200 hover:border-primary"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Back to News */}
-      <div className="container-max pb-8">
-        <div className="max-w-4xl mx-auto">
-          <Link 
-            href="/news"
-            className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to News & Insights
-          </Link>
+      <section className="section-padding bg-corporate-gray-50">
+        <div className="container-max">
+          <div className="max-w-4xl mx-auto">
+            <AnimatedSection animation="fadeInUp" delay={0.2}>
+              <Link 
+                href="/news"
+                className="group inline-flex items-center text-primary hover:text-primary-light font-semibold transition-colors duration-300"
+              >
+                <svg className="w-5 h-5 mr-3 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to News & Insights
+              </Link>
+            </AnimatedSection>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

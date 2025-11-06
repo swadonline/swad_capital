@@ -2,15 +2,23 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showMenuItems, setShowMenuItems] = useState(false);
+  const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure portal only renders on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Handle menu toggle with animation
-  const toggleMenu = () => {
+  const toggleMenu = useCallback(() => {
     if (isMenuOpen) {
       // Closing animation
       setShowMenuItems(false);
@@ -28,7 +36,7 @@ const Header = () => {
         setShowMenuItems(true);
       }, 200);
     }
-  };
+  }, [isMenuOpen]);
 
   // Close menu when clicking outside or on escape key
   useEffect(() => {
@@ -49,33 +57,38 @@ const Header = () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, toggleMenu]);
 
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
-    { name: 'Solutions', href: '/solutions' },
     { name: 'News', href: '/news' },
     { name: 'Contact', href: '/contact' },
   ];
 
+  const solutionsMenu = [
+    { name: 'Hardware', href: '/solutions/hardware' },
+    { name: 'Software', href: '/solutions/software' },
+    { name: 'Services', href: '/solutions/services' },
+  ];
+
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 animate-slide-in-top relative z-50">
+    <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b border-corporate-gray-200 relative z-50 sticky top-0">
       <nav className="container-max px-4 md:px-0">
         <div className="flex justify-between items-center py-4 md:py-6">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 hover-scale transition-all duration-300 group">
-            <div className="relative w-8 h-8 transition-all duration-300 group-hover:scale-110">
+            <div className="relative w-10 h-10 transition-all duration-300 group-hover:scale-110 bg-white p-1 rounded-md shadow-sm border border-gray-200">
               <Image
                 src="/logo/logo.jpeg"
                 alt="SWAD Digital Solutions Logo"
                 fill
                 className="object-contain rounded-md"
-                sizes="32px"
+                sizes="40px"
                 priority
               />
             </div>
-            <span className="text-xl font-bold text-primary transition-colors duration-300 group-hover:text-primary/80">SWAD Digital</span>
+            <span className="text-xl font-display font-bold text-corporate-gray-900 transition-colors duration-300 group-hover:text-primary">SWAD Digital</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -84,17 +97,53 @@ const Header = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-primary transition-all duration-300 font-medium relative group hover-scale"
+                className="text-corporate-gray-700 hover:text-primary transition-all duration-300 font-medium relative group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {item.name}
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
+            
+            {/* Solutions Dropdown */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => setIsSolutionsOpen(true)}
+              onMouseLeave={() => setIsSolutionsOpen(false)}
+            >
+              <Link
+                href="/solutions"
+                className="text-corporate-gray-700 hover:text-primary transition-all duration-300 font-medium relative"
+              >
+                Solutions
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              
+              {/* Dropdown Menu */}
+              {isSolutionsOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-fade-in-down">
+                  <Link
+                    href="/solutions"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors"
+                  >
+                    All Solutions
+                  </Link>
+                  {solutionsMenu.map((item) => (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5 hover:text-primary transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+            
             <Link
               href="/contact"
-              className="btn-primary hover-scale animate-bounce-in"
-              style={{ animationDelay: '0.4s' }}
+              className="px-6 py-2.5 bg-primary text-white font-semibold rounded-lg transition-all duration-300 hover:bg-primary-light hover:shadow-lg hover:shadow-primary/30"
             >
               Contact Sales
             </Link>
@@ -138,8 +187,8 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation Overlay */}
-        {isMenuOpen && (
+        {/* Mobile Navigation Overlay - Rendered via Portal */}
+        {mounted && isMenuOpen && createPortal(
           <div className="lg:hidden mobile-nav-overlay">
             {/* Backdrop */}
             <div 
@@ -160,13 +209,13 @@ const Header = () => {
                   transitionDelay: showMenuItems ? '100ms' : '0ms'
                 }}>
                   <div className="flex items-center space-x-3">
-                    <div className="relative w-8 h-8">
+                    <div className="relative w-10 h-10 bg-white p-1 rounded-md shadow-sm border border-gray-200">
                       <Image
                         src="/logo/logo.jpeg"
                         alt="SWAD Digital Solutions Logo"
                         fill
                         className="object-contain rounded-md"
-                        sizes="32px"
+                        sizes="40px"
                       />
                     </div>
                     <span className="text-lg sm:text-xl font-bold text-primary">SWAD Digital</span>
@@ -212,6 +261,36 @@ const Header = () => {
                         {item.name}
                       </Link>
                     ))}
+                    
+                    {/* Solutions in Mobile */}
+                    <div className={`border-b border-gray-100 ${
+                          showMenuItems 
+                            ? 'opacity-100 translate-x-0' 
+                            : 'opacity-0 translate-x-4'
+                        }`}
+                        style={{
+                          transitionDelay: showMenuItems ? `${navigation.length * 100 + 100}ms` : '0ms'
+                        }}>
+                      <Link
+                        href="/solutions"
+                        className="text-base sm:text-lg text-gray-800 hover:text-primary hover:bg-primary/5 transition-all duration-300 font-medium py-4 px-4 rounded-lg block"
+                        onClick={toggleMenu}
+                      >
+                        Solutions
+                      </Link>
+                      <div className="pl-6 space-y-1">
+                        {solutionsMenu.map((item, subIndex) => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            className="text-sm text-gray-600 hover:text-primary hover:bg-primary/5 transition-all duration-300 py-2 px-4 rounded-lg block"
+                            onClick={toggleMenu}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
@@ -234,7 +313,8 @@ const Header = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </nav>
     </header>

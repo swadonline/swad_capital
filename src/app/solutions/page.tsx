@@ -1,10 +1,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import AnimatedSection from '@/components/AnimatedSection';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import CorporateHero from '@/components/CorporateHero';
+import { generateMetadata as generateSEOMetadata, generateServiceSchema } from '@/lib/seo';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: 'Our Solutions - SWAD Digital Solutions',
-  description: 'Comprehensive technology solutions including digital infrastructure, enterprise software, cybersecurity, and managed IT services to empower your digital transformation.',
-};
+export const metadata: Metadata = generateSEOMetadata({
+  title: 'Our Solutions - Technology Services',
+  description: 'Comprehensive technology solutions including digital infrastructure, enterprise software, cybersecurity, and managed IT services to empower your digital transformation. Scalable, secure, and designed for business growth.',
+  keywords: [
+    'technology solutions',
+    'enterprise software',
+    'cloud infrastructure',
+    'cybersecurity services',
+    'managed IT services',
+    'digital transformation',
+    'IT consulting',
+    'software development',
+    'cloud migration',
+    'data protection',
+  ],
+  path: '/solutions',
+  ogType: 'website',
+});
 
 export default function Solutions() {
   const solutions = [
@@ -54,127 +73,151 @@ export default function Solutions() {
     }
   ];
 
+  // Generate service schemas
+  const serviceSchemas = solutions.map(solution => 
+    generateServiceSchema({
+      name: solution.title,
+      description: solution.description,
+      provider: 'SWAD Digital Solutions',
+      areaServed: ['Global'],
+      serviceType: solution.title,
+    })
+  );
+
   return (
     <>
+      {/* Service Schema Markup */}
+      {serviceSchemas.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema),
+          }}
+        />
+      ))}
+
+      {/* Breadcrumbs */}
+      <div className="container-max pt-8 px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs
+          items={[
+            { name: 'Home', url: '/' },
+            { name: 'Solutions', url: '/solutions' },
+          ]}
+        />
+      </div>
+
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary to-primary/90 text-white section-padding">
-        <div className="container-max">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Our Solutions Empower Digital Transformation
-            </h1>
-            <p className="text-xl text-gray-200 leading-relaxed">
-              Comprehensive technology services designed to accelerate your business growth and operational excellence
-            </p>
-          </div>
-        </div>
-      </section>
+      <CorporateHero
+        title="Our Solutions Empower Digital Transformation"
+        subtitle="Technology Services"
+        description="Comprehensive technology services designed to accelerate your business growth and operational excellence"
+        backgroundImage="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2074&auto=format&fit=crop"
+      />
 
       {/* Solutions Grid */}
-      <section className="section-padding">
+      <section className="section-padding bg-white">
         <div className="container-max">
-          <div className="space-y-24">
+          <div className="space-y-32">
             {solutions.map((solution, index) => (
-              <div key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
+              <article key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
                 <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  <div className="flex items-center mb-6">
-                    <div className="text-4xl mr-4">{solution.icon}</div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary">
-                      {solution.title}
-                    </h2>
-                  </div>
-                  
-                  <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                    {solution.description}
-                  </p>
+                  <AnimatedSection animation={index % 2 === 0 ? 'fadeInLeft' : 'fadeInRight'} delay={0.2}>
+                    <div className="flex items-center mb-8">
+                      <div className="text-5xl mr-4" aria-hidden="true">{solution.icon}</div>
+                      <h2 className="text-3xl md:text-4xl font-display font-bold text-corporate-gray-900">
+                        {solution.title}
+                      </h2>
+                    </div>
+                    
+                    <p className="text-lg text-corporate-gray-600 leading-relaxed mb-8">
+                      {solution.description}
+                    </p>
 
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-primary mb-4">Key Benefits:</h3>
-                    <ul className="space-y-3">
-                      {solution.benefits.map((benefit, benefitIndex) => (
-                        <li key={benefitIndex} className="flex items-start">
-                          <div className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                          <span className="text-gray-700">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-display font-semibold text-corporate-gray-900 mb-6">Key Benefits:</h3>
+                      <ul className="space-y-4">
+                        {solution.benefits.map((benefit, benefitIndex) => (
+                          <li key={benefitIndex} className="flex items-start">
+                            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 mr-4">
+                              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-corporate-gray-700 leading-relaxed">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </AnimatedSection>
                 </div>
 
                 <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
-                  <div className="relative">
-                    <Image
-                      src={solution.image}
-                      alt={solution.title}
-                      width={600}
-                      height={400}
-                      className="rounded-xl shadow-lg"
-                    />
-                  </div>
+                  <AnimatedSection animation={index % 2 === 0 ? 'fadeInRight' : 'fadeInLeft'} delay={0.3}>
+                    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
+                      <Image
+                        src={solution.image}
+                        alt={`${solution.title} - ${solution.description}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
+                  </AnimatedSection>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
       {/* Process Section */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-corporate-gray-50">
         <div className="container-max">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+          <AnimatedSection animation="fadeInUp" delay={0.2} className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-corporate-gray-900 mb-6">
               Our Approach
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-corporate-gray-600 max-w-3xl mx-auto">
               We follow a proven methodology to ensure successful project delivery and long-term value
             </p>
-          </div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                1
-              </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Discovery</h3>
-              <p className="text-gray-600">Understanding your business needs and technical requirements</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                2
-              </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Design</h3>
-              <p className="text-gray-600">Creating tailored solutions that align with your objectives</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                3
-              </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Deploy</h3>
-              <p className="text-gray-600">Implementing solutions with minimal disruption to your operations</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                4
-              </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">Support</h3>
-              <p className="text-gray-600">Ongoing maintenance and optimization for continued success</p>
-            </div>
+            {[
+              { step: '1', title: 'Discovery', desc: 'Understanding your business needs and technical requirements' },
+              { step: '2', title: 'Design', desc: 'Creating tailored solutions that align with your objectives' },
+              { step: '3', title: 'Deploy', desc: 'Implementing solutions with minimal disruption to your operations' },
+              { step: '4', title: 'Support', desc: 'Ongoing maintenance and optimization for continued success' },
+            ].map((item, index) => (
+              <AnimatedSection key={index} animation="fadeInUp" delay={index * 0.1}>
+                <article className="text-center">
+                  <div className="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-display font-bold mx-auto mb-6" aria-label={`Step ${item.step}`}>
+                    {item.step}
+                  </div>
+                  <h3 className="text-xl font-display font-semibold text-corporate-gray-900 mb-3">{item.title}</h3>
+                  <p className="text-corporate-gray-600">{item.desc}</p>
+                </article>
+              </AnimatedSection>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-primary text-white">
-        <div className="container-max text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Transform Your Technology Infrastructure?
-          </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Let&apos;s discuss how our solutions can accelerate your digital transformation and drive business growth.
-          </p>
-          <Link href="/contact" className="btn-secondary text-lg px-8 py-4">
-            Contact Us
-          </Link>
+      <section className="section-padding bg-gradient-to-b from-corporate-gray-900 to-corporate-gray-800 text-white">
+        <div className="container-max text-center relative z-10">
+          <AnimatedSection animation="fadeInUp" delay={0.2}>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">
+              Ready to Transform Your Technology Infrastructure?
+            </h2>
+            <p className="text-xl text-corporate-gray-300 mb-10 max-w-2xl mx-auto">
+              Let&apos;s discuss how our solutions can accelerate your digital transformation and drive business growth.
+            </p>
+            <Link href="/contact" className="inline-block px-8 py-4 bg-primary text-white font-semibold rounded-lg transition-all duration-300 hover:bg-primary-light hover:shadow-xl hover:shadow-primary/30">
+              Contact Us
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
     </>

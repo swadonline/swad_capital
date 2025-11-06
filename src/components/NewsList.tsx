@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import AnimatedSection from './AnimatedSection';
 
 const newsArticles = [
   {
@@ -79,7 +80,7 @@ const newsArticles = [
 
 export default function NewsList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 3;
+  const articlesPerPage = 6;
   const totalPages = Math.ceil(newsArticles.length / articlesPerPage);
   
   const startIndex = (currentPage - 1) * articlesPerPage;
@@ -92,99 +93,116 @@ export default function NewsList() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 stagger-container">
-      {currentArticles.map((article, index) => (
-        <article key={article.id} className="card hover:shadow-xl transition-all duration-300 hover-scale hover-tilt animate-fade-in-up flex flex-col h-full p-4 sm:p-6" style={{ animationDelay: `${index * 0.1}s` }}>
-          <div className="relative mb-4 overflow-hidden rounded-lg flex-shrink-0">
-            <Image
-              src={article.image}
-              alt={article.title}
-              width={400}
-              height={250}
-              className="w-full h-40 sm:h-48 object-cover rounded-lg hover-scale transition-transform duration-500"
-            />
-            <div className="absolute top-4 left-4 animate-bounce-in" style={{ animationDelay: `${index * 0.1 + 0.2}s` }}>
-              <span className="bg-accent text-white px-3 py-1 rounded-full text-sm font-medium hover-glow transition-all duration-300">
-                {article.category}
-              </span>
-            </div>
-          </div>
-          
-          <div className="flex flex-col flex-grow space-y-3">
-            <div className="flex items-center justify-between text-sm text-gray-500 animate-fade-in-up" style={{ animationDelay: `${index * 0.1 + 0.1}s` }}>
-              <span>{article.date}</span>
-              <span className="flex items-center">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {article.readTime}
-              </span>
-            </div>
-            
-            <h2 className="text-base sm:text-lg font-semibold text-primary leading-tight animate-fade-in-up line-clamp-3" style={{ animationDelay: `${index * 0.1 + 0.2}s` }}>
-              {article.title}
-            </h2>
-            
-            <p className="text-sm sm:text-base text-gray-600 leading-relaxed animate-fade-in-up line-clamp-4 flex-grow" style={{ animationDelay: `${index * 0.1 + 0.3}s` }}>
-              {article.excerpt}
-            </p>
-            
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-auto pt-4 space-y-2 sm:space-y-0">
-              <div className="text-xs sm:text-sm text-gray-500 animate-fade-in-up" style={{ animationDelay: `${index * 0.1 + 0.4}s` }}>
-                By {article.author}
-              </div>
-              
-              <Link 
-                href={`/news/${article.id}`}
-                className="inline-flex items-center text-accent hover:text-accent/80 font-medium transition-all duration-300 hover-scale animate-fade-in-up text-sm sm:text-base whitespace-nowrap"
-                style={{ animationDelay: `${index * 0.1 + 0.5}s` }}
-              >
-                Read more
-                <svg className="w-4 h-4 ml-1 hover-rotate transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </article>
-      ))}
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {currentArticles.map((article, index) => (
+          <AnimatedSection key={article.id} animation="fadeInUp" delay={index * 0.1}>
+            <Link 
+              href={`/news/${article.id}`}
+              className="group block h-full"
+            >
+              <article className="relative h-full bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-corporate-gray-200 hover:border-primary/30 overflow-hidden flex flex-col">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/15 transition-all duration-500" />
+                
+                <div className="relative flex-shrink-0">
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-corporate-gray-900/40 to-transparent" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-4 py-2 bg-primary/90 backdrop-blur-sm text-white rounded-full text-sm font-semibold">
+                        {article.category}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="relative flex flex-col flex-grow p-6 space-y-4">
+                  <div className="flex items-center justify-between text-sm text-corporate-gray-500">
+                    <div className="flex items-center space-x-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>{article.date}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{article.readTime}</span>
+                    </div>
+                  </div>
+                  
+                  <h2 className="text-xl font-display font-bold text-corporate-gray-900 leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                    {article.title}
+                  </h2>
+                  
+                  <p className="text-corporate-gray-600 leading-relaxed line-clamp-3 flex-grow">
+                    {article.excerpt}
+                  </p>
+                  
+                  <div className="flex items-center justify-between pt-4 border-t border-corporate-gray-200">
+                    <div className="text-sm text-corporate-gray-500">
+                      By {article.author}
+                    </div>
+                    
+                    <div className="inline-flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                      Read more
+                      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </Link>
+          </AnimatedSection>
+        ))}
+      </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="col-span-full flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-2 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-scale text-sm sm:text-base"
-          >
-            Previous
-          </button>
-          
-          <div className="flex space-x-1 sm:space-x-2">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-3 sm:px-4 py-2 rounded-lg transition-all duration-300 hover-scale text-sm sm:text-base ${
-                  page === currentPage
-                    ? 'bg-primary text-white animate-pulse'
-                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {page}
-              </button>
-            ))}
+        <AnimatedSection animation="fadeInUp" delay={0.3}>
+          <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-3">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-6 py-3 border-2 border-corporate-gray-300 rounded-xl text-corporate-gray-700 hover:border-primary hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-semibold disabled:hover:border-corporate-gray-300 disabled:hover:text-corporate-gray-700"
+            >
+              Previous
+            </button>
+            
+            <div className="flex space-x-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-5 py-3 rounded-xl transition-all duration-300 font-semibold min-w-[48px] ${
+                    page === currentPage
+                      ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                      : 'border-2 border-corporate-gray-300 text-corporate-gray-700 hover:border-primary hover:text-primary'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+            
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-6 py-3 border-2 border-corporate-gray-300 rounded-xl text-corporate-gray-700 hover:border-primary hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-semibold disabled:hover:border-corporate-gray-300 disabled:hover:text-corporate-gray-700"
+            >
+              Next
+            </button>
           </div>
-          
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover-scale text-sm sm:text-base"
-          >
-            Next
-          </button>
-        </div>
+        </AnimatedSection>
       )}
-    </div>
+    </>
   );
 }
