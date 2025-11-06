@@ -8,13 +8,26 @@ import { generateArticleSchema, baseUrl } from '@/lib/seo';
 import AnimatedSection from '@/components/AnimatedSection';
 
 // Article data - in a real app, this would come from a CMS or database
-const articles = {
-  '1': {
+const articles: Record<string, {
+  id: number;
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  image: string;
+  category: string;
+  author: string;
+  readTime: string;
+  content: string;
+  tags: string[];
+}> = {
+  'from-local-challenges-to-global-solutions-why-africas-innovations-have-universal-impact': {
     id: 1,
+    slug: 'from-local-challenges-to-global-solutions-why-africas-innovations-have-universal-impact',
     title: 'From Local Challenges to Global Solutions: Why Africa\'s Innovations Have Universal Impact',
     date: 'October 2025',
     excerpt: 'Innovation born of necessity, designed for the world. African innovators have turned everyday challenges into globally relevant solutions that are now shaping the future of technology adoption worldwide.',
-    image: '/news-1.jpg',
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop',
     category: 'Innovation',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '6 minutes',
@@ -64,12 +77,13 @@ const articles = {
     `,
     tags: ['Africa Innovation', 'Global Technology', 'Venture Capital', 'Sustainability', 'Reverse Innovation', 'Emerging Markets']
   },
-  '2': {
+  'building-global-companies-from-africa-how-technology-is-enabling-borderless-scale': {
     id: 2,
+    slug: 'building-global-companies-from-africa-how-technology-is-enabling-borderless-scale',
     title: 'Building Global Companies from Africa: How Technology Is Enabling Borderless Scale',
     date: 'October 2025',
     excerpt: 'A new generation of African entrepreneurs is building for global relevance from day one, designing platforms with scalability and cross-border functionality baked in from inception.',
-    image: '/news-2.jpg',
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2074&auto=format&fit=crop',
     category: 'Global Startups',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '6 minutes',
@@ -108,12 +122,13 @@ const articles = {
     `,
     tags: ['Africa', 'Global Startups', 'Venture Capital', 'Borderless Technology', 'Emerging Markets', 'Digital Innovation']
   },
-  '3': {
+  'africa-rising-technology-innovation-and-the-next-frontier-of-global-growth': {
     id: 3,
+    slug: 'africa-rising-technology-innovation-and-the-next-frontier-of-global-growth',
     title: 'Africa Rising: Technology, Innovation, and the Next Frontier of Global Growth',
     date: 'October 2025',
     excerpt: 'Africa is no longer just a story of potential — it is a story of momentum. The continent\'s evolution from resource-driven to knowledge-driven economies represents one of the most profound investment opportunities of our time.',
-    image: '/news-3.jpg',
+    image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop',
     category: 'Emerging Markets',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '6 minutes',
@@ -146,12 +161,13 @@ const articles = {
     `,
     tags: ['Africa Tech', 'Emerging Markets', 'Venture Investment', 'Digital Transformation', 'Sustainable Growth']
   },
-  '4': {
+  'investing-in-frontier-technologies-the-next-era-of-intelligent-capital': {
     id: 4,
+    slug: 'investing-in-frontier-technologies-the-next-era-of-intelligent-capital',
     title: 'Investing in Frontier Technologies: The Next Era of Intelligent Capital',
     date: 'October 2025',
     excerpt: 'AI, blockchain, and quantum computing are reshaping the foundations of productivity and value creation. We view these frontier technologies as strategic assets that will define the next industrial revolution.',
-    image: '/news-4.jpg',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop',
     category: 'Frontier Tech',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '7 minutes',
@@ -192,12 +208,13 @@ const articles = {
     `,
     tags: ['Frontier Technology', 'Artificial Intelligence', 'Blockchain', 'Machine Learning', 'Deep Tech', 'Quantum Computing', 'Venture Investing']
   },
-  '5': {
+  'securing-the-digital-future-why-cybersecurity-is-the-cornerstone-of-digital-transformation': {
     id: 5,
+    slug: 'securing-the-digital-future-why-cybersecurity-is-the-cornerstone-of-digital-transformation',
     title: 'Securing the Digital Future: Why Cybersecurity Is the Cornerstone of Digital Transformation',
     date: 'October 2025',
     excerpt: 'In an era defined by data, cybersecurity has become the foundation of trust, resilience, and continuity. Without it, digital transformation cannot succeed — no matter how innovative the strategy.',
-    image: '/news-3.jpg',
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop',
     category: 'Cybersecurity',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '6 minutes',
@@ -228,12 +245,13 @@ const articles = {
     `,
     tags: ['Cybersecurity', 'Digital Transformation', 'Artificial Intelligence', 'Data Security', 'Innovation']
   },
-  '6': {
+  'powering-progress-the-investment-case-for-renewable-energy-in-the-next-decade': {
     id: 6,
+    slug: 'powering-progress-the-investment-case-for-renewable-energy-in-the-next-decade',
     title: 'Powering Progress: The Investment Case for Renewable Energy in the Next Decade',
     date: 'October 2025',
     excerpt: 'Renewable energy has evolved from a moral imperative to a strategic and financial opportunity. The intersection of clean energy and digital innovation is where the most significant value will be created.',
-    image: '/news-5.jpg',
+    image: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2070&auto=format&fit=crop',
     category: 'Sustainability',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '5 minutes',
@@ -264,12 +282,13 @@ const articles = {
     `,
     tags: ['Renewable Energy', 'Sustainability', 'Green Tech', 'Energy Transition', 'Emerging Markets']
   },
-  '7': {
+  'the-strategic-edge-how-artificial-intelligence-is-redefining-competitive-advantage': {
     id: 7,
+    slug: 'the-strategic-edge-how-artificial-intelligence-is-redefining-competitive-advantage',
     title: 'The Strategic Edge: How Artificial Intelligence is Redefining Competitive Advantage',
     date: 'October 2025',
     excerpt: 'AI is no longer a concept confined to research labs. It has become the silent engine driving the next industrial revolution — transforming how businesses create value and make decisions.',
-    image: '/news-6.jpg',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop',
     category: 'Artificial Intelligence',
     author: 'SWAD Digital Solutions Editorial Team',
     readTime: '5 minutes',
@@ -316,12 +335,12 @@ const articles = {
 
 interface ArticlePageProps {
   params: {
-    id: string;
+    slug: string;
   };
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  const article = articles[params.id as keyof typeof articles];
+  const article = articles[params.slug as keyof typeof articles];
   
   if (!article) {
     return {
@@ -329,7 +348,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     };
   }
 
-  const articleUrl = `${baseUrl}/news/${params.id}`;
+  const articleUrl = `${baseUrl}/news/${params.slug}`;
   const articleImage = article.image.startsWith('http') ? article.image : `${baseUrl}${article.image}`;
 
   return {
@@ -361,7 +380,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default function ArticlePage({ params }: ArticlePageProps) {
-  const article = articles[params.id as keyof typeof articles];
+  const article = articles[params.slug as keyof typeof articles];
 
   if (!article) {
     notFound();
@@ -374,7 +393,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
     image: article.image,
     publishedTime: new Date().toISOString(),
     author: article.author,
-    url: `/news/${params.id}`,
+    url: `/news/${params.slug}`,
   });
 
   return (
@@ -393,7 +412,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
           items={[
             { name: 'Home', url: '/' },
             { name: 'News & Insights', url: '/news' },
-            { name: article.title, url: `/news/${params.id}` },
+            { name: article.title, url: `/news/${params.slug}` },
           ]}
         />
       </div>
