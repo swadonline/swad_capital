@@ -54,6 +54,7 @@ export default function Contact() {
       city: 'London',
       country: 'United Kingdom',
       address: '40 Bank Street, Canary Wharf, London, UK',
+      phone: '+44 7400 727165',
     },
     {
       city: 'New York',
@@ -171,9 +172,17 @@ export default function Contact() {
                     <p className="text-corporate-gray-600 mb-4 font-semibold">
                       {office.country}
                     </p>
-                    <p className="text-sm text-corporate-gray-600 leading-relaxed">
+                    <p className="text-sm text-corporate-gray-600 leading-relaxed mb-3">
                       {office.address}
                     </p>
+                    {office.phone && (
+                      <a 
+                        href={`tel:${office.phone.replace(/\s/g, '')}`}
+                        className="text-sm text-primary hover:text-primary-light transition-colors font-medium inline-block"
+                      >
+                        {office.phone}
+                      </a>
+                    )}
                   </div>
                 </div>
               </AnimatedSection>
